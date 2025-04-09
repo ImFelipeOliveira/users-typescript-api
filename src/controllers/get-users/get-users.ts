@@ -1,3 +1,5 @@
+import { User } from "../../models/user";
+import { HttpResponse } from "../protocols";
 import {
   GetUsersControllerInterface,
   GetUsersRepositoryInterface,
@@ -7,7 +9,7 @@ export class GetUsersController implements GetUsersControllerInterface {
   constructor(
     private readonly getUsersRepository: GetUsersRepositoryInterface
   ) {}
-  async handler() {
+  async handler(): Promise<HttpResponse<User[]>> {
     try {
       const users = await this.getUsersRepository.getUsers();
 
@@ -15,7 +17,7 @@ export class GetUsersController implements GetUsersControllerInterface {
         statusCode: 200,
         body: users,
       };
-    } catch (error: string | unknown) {
+    } catch (error) {
       console.log("Error in GetUsersController: ", error);
       return {
         statusCode: 500,

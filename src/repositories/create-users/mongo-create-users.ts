@@ -11,7 +11,7 @@ export class MongoCreateUsersRepository
   async createUser(params: CreateUserParams): Promise<User> {
     const { insertedId } = await MongoClient.db
       .collection("users")
-      .insertOne({ params });
+      .insertOne({ ...params });
 
     const user = await MongoClient.db
       .collection<Omit<User, "id">>("users")
@@ -21,6 +21,6 @@ export class MongoCreateUsersRepository
       throw new Error("User not created");
     }
     const { _id, ...rest } = user;
-    return { ...rest, id: _id.toString() };
+    return { id: _id.toString(), ...rest };
   }
 }

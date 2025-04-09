@@ -9,6 +9,6 @@ export class MongoGetUsersRepository implements GetUsersRepositoryInterface {
       .find()
       .toArray();
 
-    return users.map(({ _id, ...rest }) => ({ ...rest, id: _id.toString() }));
+    return users.map(({ _id, ...rest }) => ({ id: _id.toString(), ...rest }));
   }
 }
