@@ -4,10 +4,9 @@ import { GetUsersController } from "./controllers/get-users/get-users";
 import { MongoGetUsersRepository } from "./repositories/get-users/mongo-get-users";
 import { MongoClient } from "./database/mongo";
 
-config();
-
 const main = async () => {
   const app = express();
+  config();
   const port = process.env.PORT || 8000;
 
   await MongoClient.connect();
