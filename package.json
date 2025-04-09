@@ -25,6 +25,7 @@
     "dotenv": "^16.4.7",
     "eslint-config-prettier": "^10.1.1",
     "express": "^5.1.0",
+    "mongodb": "^6.15.0",
     "prettier": "^3.5.3"
   }
 }
