@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { createServer } from "node:http";
 import { config } from "dotenv";
 import { GetUsersController } from "./controllers/get-users/get-users";
 import { MongoGetUsersRepository } from "./repositories/get-users/mongo-get-users";
@@ -9,6 +10,7 @@ import { CreateUserController } from "./controllers/create-users/create-users";
 const main = async () => {
   config();
   const app = express();
+  const server = createServer(app);
 
   app.use(express.json());
   const port = process.env.PORT || 8000;
@@ -36,7 +38,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
 };
