@@ -3,9 +3,9 @@ import { User } from "../../models/user";
 import { HttpRequest, HttpResponse } from "../protocols";
 import {
   CreateUserControllerInterface,
-  CreateUserParams,
   CreateUserRepositoryInterface,
 } from "./protocols";
+import { CreateUserParamsType } from "../../@types/user-params";
 
 export class CreateUserController implements CreateUserControllerInterface {
   constructor(
@@ -13,7 +13,7 @@ export class CreateUserController implements CreateUserControllerInterface {
   ) {}
 
   async handler(
-    httpRequest: HttpRequest<CreateUserParams>
+    httpRequest: HttpRequest<CreateUserParamsType>
   ): Promise<HttpResponse<User>> {
     try {
       const { body } = httpRequest;
@@ -26,7 +26,7 @@ export class CreateUserController implements CreateUserControllerInterface {
       }
 
       for (const key in body) {
-        if (!body?.[key as keyof CreateUserParams]?.length) {
+        if (!body?.[key as keyof CreateUserParamsType]?.length) {
           return {
             statusCode: 400,
             body: `Missing parameter ${key}`,
