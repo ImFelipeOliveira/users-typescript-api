@@ -1,3 +1,4 @@
+import { badRequest, ok, serverError } from "../helpers";
 import { ControllerInterface, HttpRequest, HttpResponse } from "../protocols";
 import { DeleteUserRepositoryInterface } from "./protocols";
 
@@ -13,24 +14,15 @@ export class DeleteUserController implements ControllerInterface {
       const { params } = httpRequest;
 
       if (!params || !params.userId) {
-        return {
-          statusCode: 400,
-          body: "Missing userId in request params",
-        };
+        return badRequest("Missing userId in request params");
       }
 
       const result = await this.deleteUserRepository.deleteUser(params);
 
-      return {
-        statusCode: 200,
-        body: result,
-      };
+      return ok<string>(result);
     } catch (error) {
       console.error("Error in DeleteUserController: ", error);
-      return {
-        statusCode: 500,
-        body: "Internal server error",
-      };
+      return serverError();
     }
   }
 }

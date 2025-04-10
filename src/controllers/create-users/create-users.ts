@@ -3,6 +3,7 @@ import { User } from "../../models/user";
 import { ControllerInterface, HttpRequest, HttpResponse } from "../protocols";
 import { CreateUserRepositoryInterface } from "./protocols";
 import { CreateUserParamsType } from "../../@types/user-params";
+import { badRequest, created, serverError } from "../helpers";
 
 export class CreateUserController implements ControllerInterface {
   constructor(
@@ -11,46 +12,31 @@ export class CreateUserController implements ControllerInterface {
 
   async handler(
     httpRequest: HttpRequest<CreateUserParamsType>
-  ): Promise<HttpResponse<User>> {
+  ): Promise<HttpResponse<User | string>> {
     try {
       const { body } = httpRequest;
 
       if (!body || Object.keys(body!).length === 0) {
-        return {
-          statusCode: 400,
-          body: "Missing request body",
-        };
+        return badRequest("Missing request body");
       }
 
       for (const key in body) {
         if (!body?.[key as keyof CreateUserParamsType]?.length) {
-          return {
-            statusCode: 400,
-            body: `Missing parameter ${key}`,
-          };
+          return badRequest(`Missing parameter ${key}`);
         }
       }
 
       const emailIsValid = validator.isEmail(body.email);
       if (!emailIsValid) {
-        return {
-          statusCode: 400,
-          body: "Invalid email",
-        };
+        return badRequest("Invalid email");
       }
 
       const user = await this.createUserRepository.createUser(body!);
 
-      return {
-        statusCode: 201,
-        body: user,
-      };
+      return created<User>(user);
     } catch (error) {
       console.log("Error in CreateUserController: ", error);
-      return {
-        statusCode: 500,
-        body: "Internal server error",
-      };
+      return serverError();
     }
   }
 }
