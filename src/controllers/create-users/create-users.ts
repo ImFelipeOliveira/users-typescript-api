@@ -2,7 +2,7 @@ import validator from "validator";
 import { User } from "../../models/user";
 import { ControllerInterface, HttpRequest, HttpResponse } from "../protocols";
 import { CreateUserRepositoryInterface } from "./protocols";
-import { UserNoMongoIdType } from "../../@types/user-params";
+import { UserNoIdType } from "../../@types/user-params";
 import { badRequest, created, serverError } from "../helpers";
 
 export class CreateUserController implements ControllerInterface {
@@ -11,7 +11,7 @@ export class CreateUserController implements ControllerInterface {
   ) {}
 
   async handler(
-    httpRequest: HttpRequest<UserNoMongoIdType>
+    httpRequest: HttpRequest<UserNoIdType>
   ): Promise<HttpResponse<User | string>> {
     try {
       const { body } = httpRequest;
@@ -21,7 +21,7 @@ export class CreateUserController implements ControllerInterface {
       }
 
       for (const key in body) {
-        if (!body?.[key as keyof UserNoMongoIdType]?.length) {
+        if (!body?.[key as keyof UserNoIdType]?.length) {
           return badRequest(`Missing parameter ${key}`);
         }
       }

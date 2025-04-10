@@ -1,4 +1,4 @@
-import { UserNoMongoIdType } from "../../@types/user-params";
+import { UserNoIdType } from "../../@types/user-params";
 import { User } from "../../models/user";
 import { badRequest, ok, serverError } from "../helpers";
 import { ControllerInterface, HttpRequest, HttpResponse } from "../protocols";
@@ -9,7 +9,7 @@ export class UpdateUserController implements ControllerInterface {
     private readonly updateUserRepository: UpdateUserRepositoryInterface
   ) {}
   async handler(
-    httpRequest: HttpRequest<UserNoMongoIdType, { userId: string }>
+    httpRequest: HttpRequest<UserNoIdType, { userId: string }>
   ): Promise<HttpResponse<User | string>> {
     try {
       const { body, params } = httpRequest;
@@ -22,13 +22,13 @@ export class UpdateUserController implements ControllerInterface {
         return badRequest("Missing request body");
       }
 
-      const allowedKeys: (keyof Partial<UserNoMongoIdType>)[] = [
+      const allowedKeys: (keyof Partial<UserNoIdType>)[] = [
         "firstName",
         "lastName",
         "password",
       ];
       const InvalidKeys = Object.keys(body!).some(
-        (key) => !allowedKeys.includes(key as keyof UserNoMongoIdType)
+        (key) => !allowedKeys.includes(key as keyof UserNoIdType)
       );
 
       if (InvalidKeys) {

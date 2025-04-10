@@ -1,5 +1,5 @@
 import { MongoClient } from "../../database/mongo";
-import { UpdateUserParamsType } from "../../@types/user-params";
+import { UpdateUserType, UserNoIdType } from "../../@types/user-params";
 import { UpdateUserRepositoryInterface } from "../../controllers/update-user/protocols";
 import { User } from "../../models/user";
 import { ObjectId } from "mongodb";
@@ -8,7 +8,7 @@ export class MongoUpdateUserRepository
   implements UpdateUserRepositoryInterface
 {
   async updateUser(
-    body: UpdateUserParamsType,
+    body: UpdateUserType,
     params: { userId: string }
   ): Promise<User> {
     const id = params.userId;
@@ -26,11 +26,12 @@ export class MongoUpdateUserRepository
         throw new Error("User not updated");
       }
       const user = await MongoClient.db
-        .collection<UserNoMongoIdType>("users")
+        .collection<UserNoIdType>("users")
         .findOne({ _id: new ObjectId(id) });
 
-      const { _id, ...restUser } = user!;
-      return { id: _id.toString(), ...restUser };
+      const preparedUser = await MongoClient.prepareUser(user!);
+
+      return preparedUser as User;
     } catch (error) {
       console.error("Error in MongoUpdateUserRepository: ", error);
       throw new Error("Internal server error");

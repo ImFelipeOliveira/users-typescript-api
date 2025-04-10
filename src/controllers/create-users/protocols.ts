@@ -1,6 +1,6 @@
-import { UserNoMongoIdType } from "../../@types/user-params";
+import { UserNoIdType } from "../../@types/user-params";
 import { User } from "../../models/user";
 
 export interface CreateUserRepositoryInterface {
-  createUser(params: UserNoMongoIdType): Promise<User>;
+  createUser(params: UserNoIdType): Promise<User>;
 }
