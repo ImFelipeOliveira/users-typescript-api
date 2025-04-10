@@ -1,17 +1,17 @@
-import { CreateUserParamsType, UpdateUserType } from "../../@types/user-params";
-import { User } from "../../models/user";
-import { HttpRequest, HttpResponse } from "../protocols";
 import {
-  UpdateUserControllerInterface,
-  UpdateUserRepositoryInterface,
-} from "./protocols";
+  CreateUserParamsType,
+  UpdateUserParamsType,
+} from "../../@types/user-params";
+import { User } from "../../models/user";
+import { ControllerInterface, HttpRequest, HttpResponse } from "../protocols";
+import { UpdateUserRepositoryInterface } from "./protocols";
 
-export class UpdateUserController implements UpdateUserControllerInterface {
+export class UpdateUserController implements ControllerInterface {
   constructor(
     private readonly updateUserRepository: UpdateUserRepositoryInterface
   ) {}
   async handler(
-    httpRequest: HttpRequest<UpdateUserType, { userId: string }>
+    httpRequest: HttpRequest<UpdateUserParamsType, { userId: string }>
   ): Promise<HttpResponse<User>> {
     try {
       const { body, params } = httpRequest;

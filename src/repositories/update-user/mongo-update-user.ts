@@ -1,5 +1,5 @@
 import { MongoClient } from "../../database/mongo";
-import { UpdateUserType } from "../../@types/user-params";
+import { UpdateUserParamsType } from "../../@types/user-params";
 import { UpdateUserRepositoryInterface } from "../../controllers/update-user/protocols";
 import { User } from "../../models/user";
 import { ObjectId } from "mongodb";
@@ -8,7 +8,7 @@ export class MongoUpdateUserRepository
   implements UpdateUserRepositoryInterface
 {
   async updateUser(
-    body: UpdateUserType,
+    body: UpdateUserParamsType,
     params: { userId: string }
   ): Promise<User> {
     const id = params.userId;

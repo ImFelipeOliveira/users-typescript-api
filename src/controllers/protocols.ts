@@ -9,3 +9,7 @@ export interface HttpRequest<B = unknown, P = unknown, H = unknown> {
   headers?: H;
   method?: string;
 }
+
+export interface ControllerInterface {
+  handler(httpRequest: HttpRequest<unknown>): Promise<HttpResponse<unknown>>;
+}
