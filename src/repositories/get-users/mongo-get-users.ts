@@ -12,6 +12,5 @@ export class MongoGetUsersRepository implements GetUsersRepositoryInterface {
 
     const preparedUser = await MongoClient.prepareUser(users);
     return preparedUser as User[];
-    return users.map(({ _id, ...rest }) => ({ id: _id.toString(), ...rest }));
   }
 }
