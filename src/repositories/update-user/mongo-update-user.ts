@@ -26,7 +26,7 @@ export class MongoUpdateUserRepository
         throw new Error("User not updated");
       }
       const user = await MongoClient.db
-        .collection<Omit<User, "id">>("users")
+        .collection<UserNoMongoIdType>("users")
         .findOne({ _id: new ObjectId(id) });
 
       const { _id, ...restUser } = user!;

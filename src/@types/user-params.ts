@@ -1,8 +1,8 @@
 import { User } from "../models/user";
 
-export type CreateUserParamsType = Omit<User, "id">;
+export type UserNoMongoIdType = Omit<User, "id">;
 
-export type UpdateUserParamsType = {
+export type UpdateUserType = {
   firstName?: string;
   lastName?: string;
   password?: string;
